@@ -1,0 +1,1014 @@
+<title>Drei Punkte — loop directions for the götterfunken mark</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* ---------------------------------------------------------------
+   Palette: night sky + ember. Ink carries a violet bias, the paper
+   a cool porcelain bias, so neither neutral reads as default grey.
+   Two accents: ember (the Funke) and ultramarine (the Sternenzelt).
+   --------------------------------------------------------------- */
+:root{
+  --paper:#EFF0F5;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FB;
+  --ink:#14131C;
+  --ink-soft:#3D3B4C;
+  --muted:#63616F;
+  --line:#D9DAE3;
+  --line-soft:#E7E8EF;
+  --ember:#D9490A;
+  --ember-graphic:#F2600C;
+  --ultra:#2F35D6;
+  --shadow:0 1px 2px rgba(20,19,28,.06), 0 12px 32px -20px rgba(20,19,28,.35);
+
+  --display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+
+  --stage:#0A0910;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B0A11;
+    --surface:#14131C;
+    --surface-2:#1A1924;
+    --ink:#ECEBF2;
+    --ink-soft:#C7C5D4;
+    --muted:#918FA1;
+    --line:#2A2937;
+    --line-soft:#221F2D;
+    --ember:#FF8B4A;
+    --ember-graphic:#FF7A2E;
+    --ultra:#8A8FFF;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 18px 40px -24px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B0A11;
+  --surface:#14131C;
+  --surface-2:#1A1924;
+  --ink:#ECEBF2;
+  --ink-soft:#C7C5D4;
+  --muted:#918FA1;
+  --line:#2A2937;
+  --line-soft:#221F2D;
+  --ember:#FF8B4A;
+  --ember-graphic:#FF7A2E;
+  --ultra:#8A8FFF;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 18px 40px -24px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16.5px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:76rem;margin:0 auto;padding:0 clamp(1.1rem,4vw,3rem)}
+.prose{max-width:38rem}
+
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{
+  font-family:var(--display);
+  font-size:clamp(1.6rem,3.2vw,2.15rem);
+  font-weight:600;
+  letter-spacing:-.012em;
+  line-height:1.18;
+}
+h3{font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+p{margin:0}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.685rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ---------------- masthead ---------------- */
+.masthead{
+  border-bottom:1px solid var(--line);
+  padding:clamp(3rem,8vw,6rem) 0 clamp(2.4rem,5vw,3.6rem);
+}
+.mast-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);grid-template-columns:1fr}
+@media (min-width:60rem){.mast-grid{grid-template-columns:1.15fr .85fr;align-items:end}}
+
+.mark{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:clamp(2.9rem,8.4vw,5.6rem);
+  letter-spacing:-.045em;
+  line-height:1;
+  display:inline-block;
+  position:relative;
+  margin:.55em 0 0;
+}
+.o-wrap{position:relative;display:inline-block}
+.dots{position:absolute;left:50%;bottom:.80em;transform:translateX(-50%);display:flex;gap:.115em}
+.dots i{
+  width:.135em;height:.135em;border-radius:50%;
+  background:var(--ember-graphic);
+  display:block;
+  animation:breathe 4.2s ease-in-out infinite;
+}
+.dots i:nth-child(2){animation-delay:.45s}
+.dots i:nth-child(3){animation-delay:.9s}
+@keyframes breathe{
+  0%,100%{transform:translateY(0) scale(1);opacity:1}
+  50%{transform:translateY(-.16em) scale(1.08);opacity:.82}
+}
+.mast-sub{margin-top:1.6rem;font-size:1.09rem;color:var(--ink-soft);max-width:34rem}
+.mast-meta{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;margin-top:1.4rem}
+.mast-meta span{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
+
+.note{
+  border-left:2px solid var(--ember-graphic);
+  padding:.15rem 0 .15rem 1.1rem;
+  font-size:.925rem;
+  color:var(--ink-soft);
+  display:flex;flex-direction:column;gap:.7rem;
+}
+.note b{font-weight:600;color:var(--ink)}
+
+/* ---------------- sections ---------------- */
+section{padding:clamp(3rem,7vw,5.2rem) 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;flex-direction:column;gap:.85rem;margin-bottom:2.6rem}
+.sec-head p{color:var(--ink-soft);max-width:40rem}
+
+/* stack table */
+.stack{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.94rem;
+}
+.stack-scroll{overflow-x:auto}
+.stack th{
+  text-align:left;
+  font-family:var(--mono);
+  font-size:.66rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:400;
+  padding:0 1.2rem .7rem 0;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+.stack td{
+  padding:1.05rem 1.2rem 1.05rem 0;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+  color:var(--ink-soft);
+}
+.stack td:first-child{
+  color:var(--ink);
+  font-weight:600;
+  white-space:nowrap;
+  width:1%;
+}
+.stack td:nth-child(2){font-family:var(--mono);font-size:.855rem;color:var(--ink);min-width:15rem}
+.stack td:nth-child(2) em{font-style:normal;color:var(--muted)}
+
+.pill-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.pill{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;
+  border:1px solid var(--line);border-radius:999px;
+  padding:.35rem .8rem;color:var(--muted);background:var(--surface);
+}
+
+/* ---------------- boards ---------------- */
+.boards{display:flex;flex-direction:column;gap:clamp(3rem,7vw,5rem)}
+.board{display:flex;flex-direction:column;gap:1.5rem}
+.board-head{display:grid;gap:.9rem;grid-template-columns:1fr}
+@media (min-width:62rem){
+  .board-head{grid-template-columns:minmax(0,20rem) minmax(0,1fr);gap:2.4rem;align-items:baseline}
+}
+.board-title{display:flex;flex-direction:column;gap:.3rem}
+.board-title .en{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ember);
+}
+.board-lede{color:var(--ink-soft);max-width:42rem}
+
+.stage-shell{
+  background:var(--stage);
+  border-radius:3px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.06);
+}
+.stage-canvas{display:block;width:100%;aspect-ratio:21/9;max-height:440px}
+@media (max-width:44rem){.stage-canvas{aspect-ratio:4/3}}
+
+.transport{
+  display:flex;align-items:center;gap:.9rem;
+  padding:.6rem .8rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.025);
+}
+.play{
+  appearance:none;border:1px solid rgba(255,255,255,.22);background:transparent;
+  color:#EDEAF2;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:.4rem .7rem;border-radius:2px;cursor:pointer;
+  min-width:5.1rem;
+}
+.play:hover{border-color:rgba(255,255,255,.5)}
+.play:focus-visible{outline:2px solid var(--ember-graphic);outline-offset:2px}
+.track{display:flex;flex:1;gap:2px;min-width:0;position:relative}
+.seg{
+  appearance:none;border:0;padding:0;cursor:pointer;
+  height:16px;flex:1 1 auto;min-width:0;
+  background:rgba(255,255,255,.09);
+  position:relative;border-radius:1px;
+}
+.seg:hover{background:rgba(255,255,255,.2)}
+.seg:focus-visible{outline:2px solid var(--ember-graphic);outline-offset:2px}
+.seg.on{background:rgba(242,96,12,.55)}
+.seg .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--ember-graphic);border-radius:1px}
+.seg.done .fill{width:100%}
+.clock{
+  font-family:var(--mono);font-size:.72rem;color:rgba(237,234,242,.62);
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+
+/* beat sheet */
+.sheet{display:grid;gap:2rem;grid-template-columns:1fr}
+@media (min-width:62rem){.sheet{grid-template-columns:minmax(0,1fr) minmax(0,19rem);gap:2.6rem}}
+.beats{width:100%;border-collapse:collapse;font-size:.9rem}
+.beats th{
+  text-align:left;font-family:var(--mono);font-size:.63rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);font-weight:400;
+  padding:0 1rem .6rem 0;border-bottom:1px solid var(--line);
+}
+.beats td{padding:.72rem 1rem .72rem 0;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-soft)}
+.beats tr td:first-child{
+  font-family:var(--mono);font-size:.82rem;color:var(--muted);
+  font-variant-numeric:tabular-nums;white-space:nowrap;width:1%;
+}
+.beats tr td:nth-child(2){color:var(--ink);font-weight:600;white-space:nowrap;width:1%}
+.beats tr.on td{background:var(--surface-2)}
+.beats tr.on td:first-child{color:var(--ember);box-shadow:inset 2px 0 0 var(--ember-graphic)}
+
+.spec{
+  background:var(--surface);
+  border:1px solid var(--line);
+  padding:1.35rem;
+  display:flex;flex-direction:column;gap:1.05rem;
+  align-self:start;
+}
+.spec div{display:flex;flex-direction:column;gap:.22rem}
+.spec dt{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+}
+.spec dd{margin:0;font-size:.9rem;color:var(--ink-soft)}
+
+/* production notes */
+.cols{display:grid;gap:2rem;grid-template-columns:1fr}
+@media (min-width:52rem){.cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:2.4rem 3rem}}
+@media (min-width:72rem){.cols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{display:flex;flex-direction:column;gap:.55rem}
+.card h4{
+  margin:0;font-size:.95rem;font-weight:600;
+  padding-bottom:.55rem;border-bottom:1px solid var(--line);
+}
+.card p{font-size:.92rem;color:var(--ink-soft)}
+.card code{font-family:var(--mono);font-size:.86em;color:var(--ink)}
+
+footer{padding:2.6rem 0 4rem;color:var(--muted);font-size:.85rem}
+footer p+p{margin-top:.5rem}
+
+@media (prefers-reduced-motion: reduce){
+  .dots i{animation:none}
+}
+</style>
+
+<header class="masthead">
+  <div class="wrap mast-grid">
+    <div>
+      <p class="eyebrow">Motion direction — background loop</p>
+      <h1 class="mark">g<span class="o-wrap">o<span class="dots"><i></i><i></i><i></i></span></span>tterfunken</h1>
+      <p class="mast-sub">
+        Five ways the three dots can leave the wordmark, live in the background for
+        seven to ten seconds, and arrive back exactly where they started.
+        Every direction below is a real, running loop — not a mockup.
+      </p>
+      <p class="mast-meta">
+        <span>5 directions</span><span>7.0–10.0 s</span><span>seamless</span><span>canvas prototype</span>
+      </p>
+    </div>
+    <div class="note">
+      <p><b>On the reference site.</b> estrela.studio and divinesparks.eu are both
+      blocked by this session's network policy, so I could not open either one.
+      The stack below is therefore written as a build spec for this class of
+      background — the thing you would need to ship it — rather than a teardown
+      of Estrela's actual bundle. Send me a screen recording or the page source
+      and I will diff it against this.</p>
+      <p><b>On the wordmark.</b> The logo file was behind the same block. The
+      prototype sets <em>götterfunken</em> in a heavy grotesque with the umlaut
+      removed, and draws the three dots itself. Dropping in the real SVG is a
+      one-function change — see <em>Handoff</em> at the bottom.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head prose">
+        <p class="eyebrow">Part one</p>
+        <h2>What it takes to build a background like this</h2>
+        <p>A generative, always-running background is three separate problems: something
+        that draws fast, something that decides where things are, and something that
+        keeps the browser from catching fire. Here is the layer stack I would ship.</p>
+      </div>
+      <div class="stack-scroll">
+        <table class="stack">
+          <thead>
+            <tr><th>Layer</th><th>Pick</th><th>Why this one</th></tr>
+          </thead>
+          <tbody id="stack-body"></tbody>
+        </table>
+      </div>
+      <div class="pill-row" id="stack-alts"></div>
+    </div>
+  </section>
+
+  <section id="boards">
+    <div class="wrap">
+      <div class="sec-head prose">
+        <p class="eyebrow">Part two</p>
+        <h2>Five loops</h2>
+        <p>Each one starts and ends on the mark at rest, so the wordmark is always
+        readable at the loop seam. Press play, or click any beat in the strip to jump
+        to it — the beat sheet follows the playhead.</p>
+      </div>
+      <div class="boards" id="board-list"></div>
+    </div>
+  </section>
+
+  <section id="production">
+    <div class="wrap">
+      <div class="sec-head prose">
+        <p class="eyebrow">Part three</p>
+        <h2>Handoff</h2>
+        <p>What has to be true before any of these goes on a live page.</p>
+      </div>
+      <div class="cols" id="prod-list"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Prototype rendered on canvas 2D at up to 2× DPR. Production build targets WebGL —
+  see the stack table. All five loops are deterministic: position is a pure function of
+  loop time, so any frame can be reproduced, scrubbed, or rendered out to video.</p>
+  <p>Drafted for götterfunken, Vienna.</p>
+</footer>
+
+<script>
+(() => {
+"use strict";
+
+/* ============================ helpers ============================ */
+const clamp=(v,a=0,b=1)=>v<a?a:(v>b?b:v);
+const lerp=(a,b,t)=>a+(b-a)*t;
+const inv=(t,a,b)=>clamp((t-a)/(b-a));
+const eOut=t=>1-Math.pow(1-t,3);
+const eIn=t=>t*t*t;
+const eIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const TAU=Math.PI*2;
+function mulberry(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+
+/* keyframe track: frames = [[time, value, easeFn?], ...] */
+function kf(t,frames){
+  if(t<=frames[0][0])return frames[0][1];
+  for(let i=1;i<frames.length;i++){
+    const a=frames[i-1],b=frames[i];
+    if(t<=b[0]){
+      const u=b[0]===a[0]?1:(t-a[0])/(b[0]-a[0]);
+      const e=b[2]||eIO;
+      return lerp(a[1],b[1],e(u));
+    }
+  }
+  return frames[frames.length-1][1];
+}
+
+/* ============================ shared drawing ============================ */
+const STAGE_BG="#0A0910";
+const WORD="gotterfunken";
+
+function computeLayout(ctx,w,h){
+  const fs=Math.min(w*0.112,h*0.30);
+  ctx.font=`700 ${fs}px "Helvetica Neue",Helvetica,Arial,sans-serif`;
+  const total=ctx.measureText(WORD).width;
+  const x0=(w-total)/2;
+  const gW=ctx.measureText("g").width;
+  const oW=ctx.measureText("o").width;
+  const baseY=h*0.615;
+  const oCx=x0+gW+oW/2;
+  const dotR=fs*0.073;
+  const gap=fs*0.246;
+  const dotY=baseY-fs*0.735;
+  return {fs,x0,baseY,dotR,homes:[
+    {x:oCx-gap,y:dotY},{x:oCx,y:dotY},{x:oCx+gap,y:dotY}
+  ]};
+}
+
+function drawGround(ctx,w,h){
+  ctx.fillStyle=STAGE_BG;
+  ctx.fillRect(0,0,w,h);
+  const g=ctx.createRadialGradient(w*0.5,h*0.42,0,w*0.5,h*0.42,Math.max(w,h)*0.72);
+  g.addColorStop(0,"rgba(60,54,96,0.30)");
+  g.addColorStop(0.55,"rgba(24,20,44,0.12)");
+  g.addColorStop(1,"rgba(0,0,0,0.55)");
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+}
+
+function drawWord(ctx,w,h,L,alpha){
+  ctx.font=`700 ${L.fs}px "Helvetica Neue",Helvetica,Arial,sans-serif`;
+  ctx.textBaseline="alphabetic";
+  ctx.fillStyle=`rgba(232,229,240,${alpha})`;
+  ctx.fillText(WORD,L.x0,L.baseY);
+}
+
+function glowDot(ctx,x,y,r,a,heat){
+  a=clamp(a,0,1);
+  if(a<=0.002||r<=0)return;
+  const gr=r*5.5;
+  const g=ctx.createRadialGradient(x,y,0,x,y,gr);
+  g.addColorStop(0,`rgba(255,${Math.round(130+60*heat)},${Math.round(50+40*(1-heat))},${0.30*a*(0.30+0.70*heat)})`);
+  g.addColorStop(1,"rgba(255,110,40,0)");
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,gr,0,TAU);ctx.fill();
+  const core=`rgba(${255},${Math.round(238-40*(1-heat))},${Math.round(226-90*(1-heat))},${a})`;
+  ctx.fillStyle=core;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+}
+
+/* ============================ board 1 — sternenzelt ============================ */
+const S1={
+  a0:[0.3,2.5,4.4], sp:[0.30,-0.24,0.20],
+  rx:[0.30,0.20,0.36], ry:[0.30,0.44,0.22],
+  stars:(()=>{const r=mulberry(4711),a=[];for(let i=0;i<58;i++)a.push({x:r(),y:r(),m:r(),ph:r()*TAU});return a;})()
+};
+function drawSternenzelt(ctx,w,h,L,t){
+  drawGround(ctx,w,h);
+  const k = t<1.2?0 : t<2.6? eIO(inv(t,1.2,2.6)) : t<7.2?1 : t<8.6? 1-eIO(inv(t,7.2,8.6)) : 0;
+
+  // background star field — twinkle is periodic over the 9 s loop
+  for(const s of S1.stars){
+    const tw=0.5+0.5*Math.sin(TAU*t/9*(1+Math.floor(s.m*3))+s.ph);
+    const a=(0.10+0.34*s.m*tw)*(0.35+0.65*k);
+    const rr=(0.6+s.m*1.5)*(w/1100)*1.6;
+    ctx.fillStyle=`rgba(206,208,255,${a})`;
+    ctx.beginPath();ctx.arc(s.x*w,s.y*h,rr,0,TAU);ctx.fill();
+  }
+
+  const cx=w*0.5, cy=h*0.38;
+  const P=[0,1,2].map(i=>{
+    const ang=S1.a0[i]+t*S1.sp[i]+(t>5.5? (t-5.5)*0.09 : 0);
+    const ox=cx+Math.cos(ang)*w*S1.rx[i]+Math.sin(t*0.6+i)*w*0.012;
+    const oy=cy+Math.sin(ang)*h*S1.ry[i]+Math.cos(t*0.7+i*2)*h*0.02;
+    return {x:lerp(L.homes[i].x,ox,k), y:lerp(L.homes[i].y,oy,k)};
+  });
+
+  // links to nearby background stars
+  if(k>0.02){
+    ctx.lineWidth=Math.max(0.6,w*0.0007);
+    for(const p of P){
+      let best=null,bd=1e9;
+      for(const s of S1.stars){
+        const d=(s.x*w-p.x)**2+(s.y*h-p.y)**2;
+        if(d<bd){bd=d;best=s;}
+      }
+      if(best&&bd<(w*0.30)**2){
+        ctx.strokeStyle=`rgba(150,155,255,${0.20*k})`;
+        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(best.x*w,best.y*h);ctx.stroke();
+      }
+    }
+    // the triangle closes between 3.2 s and 4.6 s
+    const tri=inv(t,3.2,4.6)*k;
+    if(tri>0.01){
+      ctx.strokeStyle=`rgba(214,214,255,${0.30*tri})`;
+      ctx.lineWidth=Math.max(0.7,w*0.0009);
+      ctx.beginPath();
+      ctx.moveTo(P[0].x,P[0].y);
+      const e=[[0,1],[1,2],[2,0]];
+      for(let i=0;i<3;i++){
+        const seg=clamp(tri*3-i);
+        const a=P[e[i][0]],b=P[e[i][1]];
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(lerp(a.x,b.x,seg),lerp(a.y,b.y,seg));
+      }
+      ctx.stroke();
+    }
+  }
+
+  drawWord(ctx,w,h,L,lerp(0.92,0.20,k));
+
+  const settle=t>8.6?1-inv(t,8.6,9):0;
+  for(let i=0;i<3;i++){
+    const r=L.dotR*(1+0.22*settle*Math.sin(TAU*(t-8.6)*4)+0.05*Math.sin(t*2+i));
+    glowDot(ctx,P[i].x,P[i].y,r,1,0.35+0.35*k);
+  }
+}
+
+/* ============================ board 2 — funkenflug ============================ */
+const SPARKS=(()=>{
+  const r=mulberry(9001),a=[];
+  for(let i=0;i<170;i++){
+    a.push({
+      i:i%3, birth:0.85+r()*3.9, life:1.1+r()*1.35,
+      vx:(r()-0.5)*0.075, vy:-(0.14+r()*0.16),
+      sway:r()*TAU, swf:1.8+r()*2.6, amp:0.006+r()*0.016,
+      sz:0.16+r()*0.30
+    });
+  }
+  return a;
+})();
+function emberPos(i,t,L,w,h){
+  const H=L.homes[i], s=i*0.11, R=L.dotR;
+  const y=kf(t,[[0,H.y],[1.55+s,H.y],[4.5,h*0.155,eOut],[6.0,h*0.125],
+                [7.30,H.y+R*1.1,eIn],[7.50,H.y-R*0.6,eOut],[7.72,H.y,eOut],[9,H.y]]);
+  const air=kf(t,[[0,0],[1.55+s,0],[2.3,1],[6.9,1],[7.3,0],[9,0]]);
+  const x=kf(t,[[0,H.x],[1.55+s,H.x],[4.5,H.x+(i-1)*w*0.115,eOut],[6.0,H.x+(i-1)*w*0.145],
+                [7.30,H.x,eIO],[9,H.x]]) + Math.sin(t*1.15+i*2.1)*w*0.021*air;
+  const r=kf(t,[[0,R],[1.55+s,R],[4.5,R*0.86],[6.0,R*0.52],[7.30,R*0.92],[7.50,R*1.16],[7.75,R],[9,R]]);
+  const heat=kf(t,[[0,0.16],[0.8,0.18],[1.5,1],[4.4,0.92],[6.0,0.04],[6.9,0.10],[7.30,0.85],[7.9,0.30],[9,0.16]]);
+  return {x,y,r,heat};
+}
+function drawFunkenflug(ctx,w,h,L,t){
+  drawGround(ctx,w,h);
+
+  // sparks — every particle is dead before the loop seam at 8.0 s
+  for(const s of SPARKS){
+    const age=t-s.birth;
+    if(age<0||age>s.life)continue;
+    const u=age/s.life;
+    const o=emberPos(s.i,s.birth,L,w,h);
+    const x=o.x+s.vx*w*age+Math.sin(s.sway+age*s.swf)*w*s.amp*u;
+    const y=o.y+s.vy*h*age+h*0.030*age*age;
+    const cool=clamp((u-0.55)/0.45);
+    const a=(1-u*u)*0.9;
+    const rr=Math.max(0.5,L.dotR*s.sz*(1-0.4*u));
+    const cr=Math.round(lerp(255,150,cool));
+    const cg=Math.round(lerp(196,142,cool));
+    const cb=Math.round(lerp(96,138,cool));
+    ctx.fillStyle=`rgba(${cr},${cg},${cb},${a})`;
+    ctx.beginPath();ctx.arc(x,y,rr,0,TAU);ctx.fill();
+  }
+
+  const airborne=inv(t,1.6,2.4)*(1-inv(t,7.0,7.4));
+  drawWord(ctx,w,h,L,lerp(0.92,0.26,airborne));
+
+  // impact ring
+  if(t>7.28&&t<7.9){
+    const u=inv(t,7.28,7.9);
+    for(let i=0;i<3;i++){
+      const H=L.homes[i];
+      ctx.strokeStyle=`rgba(255,150,70,${0.42*(1-u)})`;
+      ctx.lineWidth=Math.max(0.6,L.dotR*0.24*(1-u));
+      ctx.beginPath();ctx.arc(H.x,H.y,L.dotR*(1+u*3.4),0,TAU);ctx.stroke();
+    }
+  }
+
+  for(let i=0;i<3;i++){
+    const p=emberPos(i,t,L,w,h);
+    glowDot(ctx,p.x,p.y,p.r,1,p.heat);
+  }
+}
+
+/* ============================ board 3 — schmelze (metaballs) ============================ */
+/* The field renders a ball at ~1.24x its source radius, so REST is pre-divided
+   to make an isolated blob match the logo dot exactly. BIG is art direction, not
+   physics: true conserved volume is illegible at umlaut scale. */
+const RF_REST=0.806, RF_BIG=2.20;
+function schmelzePos(i,t,L,w,h){
+  const H=L.homes[i], R=L.dotR;
+  const C={x:w*0.5,y:h*0.235};
+  const u8=inv(t,2.0,3.6);
+  const F={x:C.x+Math.sin(TAU*u8)*w*0.235, y:C.y+Math.sin(2*TAU*u8)*h*0.098};
+  const spread=(i-1)*R*4.6;
+  const swirl=R*2.30;
+  const sw=(p,ph)=>({x:Math.cos(t*2.0+i*2.09)*swirl*p, y:Math.sin(t*2.0+i*2.09)*swirl*0.62*p});
+  let x,y,rf;
+  if(t<0.9){x=H.x;y=H.y;rf=RF_REST;}
+  else if(t<2.0){
+    const p=eIO(inv(t,0.9,2.0));const o=sw(p);
+    x=lerp(H.x,C.x,p)+o.x;y=lerp(H.y,C.y,p)+o.y;rf=lerp(RF_REST,RF_BIG,p);
+  }
+  else if(t<3.6){const o=sw(1);x=F.x+o.x;y=F.y+o.y;rf=RF_BIG;}
+  else if(t<4.8){
+    const p=eIO(inv(t,3.6,4.8));const o=sw(1-p);
+    x=lerp(C.x,C.x+spread,p)+o.x;y=C.y+o.y;rf=lerp(RF_BIG,RF_REST*1.25,p);
+  }
+  else if(t<6.3){
+    const p=eIO(inv(t,4.8,6.3));
+    x=lerp(C.x+spread,H.x,p);y=lerp(C.y,H.y,p);rf=lerp(RF_REST*1.25,RF_REST,p);
+  }
+  else {const d=Math.exp(-(t-6.3)*5.5);x=H.x;y=H.y;rf=RF_REST*(1+0.22*d*Math.sin((t-6.3)*26));}
+  return {x,y,r:R*rf};
+}
+function drawSchmelze(ctx,w,h,L,t,S){
+  drawGround(ctx,w,h);
+  drawWord(ctx,w,h,L,lerp(0.92,0.24,inv(t,0.9,1.9)*(1-inv(t,5.6,6.3))));
+
+  const P=[0,1,2].map(i=>schmelzePos(i,t,L,w,h));
+  const cell=3;
+  const fw=Math.max(8,Math.ceil(w/cell)), fh=Math.max(8,Math.ceil(h/cell));
+  if(!S.buf||S.buf.width!==fw||S.buf.height!==fh){
+    S.buf=document.createElement("canvas");
+    S.buf.width=fw;S.buf.height=fh;
+    S.bctx=S.buf.getContext("2d");
+    S.img=S.bctx.createImageData(fw,fh);
+  }
+  const d=S.img.data;
+  const r2=P.map(p=>p.r*p.r*1.32);
+  for(let py=0;py<fh;py++){
+    const wy=py*cell;
+    for(let px=0;px<fw;px++){
+      const wx=px*cell;
+      let f=0;
+      for(let i=0;i<3;i++){
+        const dx=wx-P[i].x, dy=wy-P[i].y;
+        f+=r2[i]/(dx*dx+dy*dy+0.0001);
+      }
+      const o=(py*fw+px)*4;
+      if(f<0.72){d[o+3]=0;continue;}
+      const edge=clamp((f-0.86)/0.34);
+      const a=edge;
+      const mix=clamp((wx/w-0.15)/0.7);
+      d[o]  =Math.round(lerp(255,150,mix*0.65));
+      d[o+1]=Math.round(lerp(214,158,mix*0.65)+50*(1-edge));
+      d[o+2]=Math.round(lerp(178,255,mix*0.9));
+      d[o+3]=Math.round(255*a);
+    }
+  }
+  S.bctx.putImageData(S.img,0,0);
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality="high";
+  ctx.save();
+  ctx.globalAlpha=0.22;
+  ctx.filter="blur(9px)";
+  ctx.drawImage(S.buf,0,0,w,h);
+  ctx.filter="none";
+  ctx.globalAlpha=1;
+  ctx.drawImage(S.buf,0,0,w,h);
+  ctx.restore();
+}
+
+/* ============================ board 4 — dreikörper ============================ */
+const S4={a0:[0.0,2.2,4.3], sp:[0.95,-0.76,1.22], rad:[0.255,0.185,0.315]};
+function bodyPos(i,tRaw,L,w,h){
+  const t=((tRaw%10)+10)%10;
+  const H=L.homes[i];
+  const cap0=7.5+i*0.25, cap1=8.7+i*0.25;
+  const k = t<1?0 : t<2.2? eIO(inv(t,1,2.2)) : t<cap0?1 : t<cap1? 1-eIO(inv(t,cap0,cap1)) : 0;
+  if(k<=0)return {x:H.x,y:H.y,k:0};
+  const bx=w*0.5+Math.sin(TAU*t/10)*w*0.095;
+  const by=h*0.38+Math.sin(2*TAU*t/10)*h*0.065;
+  const shrink=t<6?1:lerp(1,0.30,eIO(inv(t,6,7.7)));
+  const ang=S4.a0[i]+t*S4.sp[i]+Math.max(0,t-6)*Math.max(0,t-6)*0.40;
+  const R=w*S4.rad[i]*shrink*(0.78+0.22*Math.sin(t*0.8+i*1.7));
+  return {x:lerp(H.x,bx+Math.cos(ang)*R,k), y:lerp(H.y,by+Math.sin(ang)*R*0.60,k), k};
+}
+const S4COL=[[255,150,70],[196,168,255],[255,205,140]];
+function drawDreikoerper(ctx,w,h,L,t){
+  drawGround(ctx,w,h);
+  const live=inv(t,1,2.2)*(1-inv(t,7.5,8.95));
+  drawWord(ctx,w,h,L,lerp(0.92,0.22,live));
+
+  const N=46, step=0.036;
+  for(let i=0;i<3;i++){
+    const c=S4COL[i];
+    for(let s=N;s>=1;s--){
+      const p=bodyPos(i,t-s*step,L,w,h);
+      if(p.k<=0.001)continue;
+      const f=1-s/N;
+      const a=0.30*Math.pow(f,1.7)*p.k;
+      ctx.fillStyle=`rgba(${c[0]},${c[1]},${c[2]},${a})`;
+      ctx.beginPath();ctx.arc(p.x,p.y,L.dotR*(0.30+0.62*f),0,TAU);ctx.fill();
+    }
+  }
+  for(let i=0;i<3;i++){
+    const p=bodyPos(i,t,L,w,h);
+    glowDot(ctx,p.x,p.y,L.dotR,1,0.35+0.4*p.k);
+  }
+}
+
+/* ============================ board 5 — raster ============================ */
+const PER=150;
+const RASTER=(()=>{
+  const r=mulberry(1848), arr=[];
+  /* Sparkle target: a four-point star. Sampled uniformly in ANGLE, not in area,
+     so the thin arms get as many particles as the fat core and the silhouette
+     actually reads. Radius is biased outward to firm up the edge. */
+  const shape=a=>0.11+0.89*Math.pow(Math.abs(Math.cos(2*a)),2.6);
+  const star=[];
+  for(let n=0;n<PER*3;n++){
+    const a=(n/(PER*3))*TAU+r()*0.055;
+    const u=Math.pow(r(),0.42);
+    const rad=shape(a)*u;
+    star.push({x:Math.cos(a)*rad, y:Math.sin(a)*rad, rad:u});
+  }
+  for(let n=star.length-1;n>0;n--){const m=Math.floor(r()*(n+1));[star[n],star[m]]=[star[m],star[n]];}
+  const cols=30, rows=16;
+  const grid=[];
+  for(let gy=0;gy<rows;gy++)for(let gx=0;gx<cols;gx++){
+    grid.push({x:0.055+(gx+0.5)/cols*0.89+(r()-0.5)*0.012,
+               y:0.075+(gy+0.5)/rows*0.80+(r()-0.5)*0.016});
+  }
+  for(let n=grid.length-1;n>0;n--){const m=Math.floor(r()*(n+1));[grid[n],grid[m]]=[grid[m],grid[n]];}
+  for(let n=0;n<PER*3;n++){
+    // Vogel spiral packs the rest state into three solid discs
+    const idx=n%PER;
+    const ga=idx*2.399963;
+    const gr=Math.sqrt((idx+0.5)/PER)*0.88;
+    const g=grid[n%grid.length];
+    arr.push({
+      c:Math.floor(n/PER),
+      hx:Math.cos(ga)*gr, hy:Math.sin(ga)*gr,
+      gx:g.x, gy:g.y,
+      sx:star[n].x, sy:star[n].y, sr:star[n].rad,
+      d:r(), sz:0.62+r()*0.55
+    });
+  }
+  return arr;
+})();
+function drawRaster(ctx,w,h,L,t){
+  drawGround(ctx,w,h);
+  const away=inv(t,1.0,2.2)*(1-inv(t,6.6,7.6));
+  drawWord(ctx,w,h,L,lerp(0.92,0.15,away));
+
+  const rest = t<0.8 ? 1 : t<1.35 ? 1-eIO(inv(t,0.8,1.35)) : t<7.2 ? 0 : t<8.4 ? eIO(inv(t,7.2,8.4)) : 1;
+  const scatter = t<0.8?0 : t<1.8? eIO(inv(t,0.8,1.8)) : 1;
+  const spr = kf(t,[[0,1],[0.8,1],[1.8,1.75],[5.6,1.75],[7.2,1.55],[8.4,1],[9,1]]);
+  const toGrid = t<1.8?0 : t<3.2? inv(t,1.8,3.2) : t<5.6?1 : t<7.2? 1-inv(t,5.6,7.2) : 0;
+  const toStar = t<3.2?0 : t<3.9? eIO(inv(t,3.2,3.9)) : t<5.0?1 : t<5.6? 1-eIO(inv(t,5.0,5.6)) : 0;
+  const starRx = Math.min(h*0.62,w*0.30), starRy = h*0.40, starC={x:w*0.5,y:h*0.42};
+  const shimmer = 0.5+0.5*Math.sin(t*3.1);
+
+  for(const p of RASTER){
+    const H=L.homes[p.c];
+    const hx=H.x+p.hx*L.dotR*spr, hy=H.y+p.hy*L.dotR*spr;
+
+    // grid leg — staggered by particle, x resolves before y (Manhattan recall)
+    const gp=clamp((toGrid-p.d*0.34)/0.66);
+    const gx=clamp(gp/0.62), gy=clamp((gp-0.34)/0.66);
+    let x=lerp(hx,p.gx*w,eIO(gx));
+    let y=lerp(hy,p.gy*h,eIO(gy));
+
+    if(toStar>0){
+      const sx=starC.x+p.sx*starRx, sy=starC.y+p.sy*starRy;
+      x=lerp(x,sx,toStar);y=lerp(y,sy,toStar);
+    }
+
+    const halftone = toStar>0 ? lerp(1,0.55+1.15*(1-p.sr),toStar) : 1;
+    const r=Math.max(0.55,L.dotR*0.17*p.sz*halftone*lerp(1,1.12,toStar*shimmer));
+    const a=lerp(0.95,0.78,scatter*(1-rest))*lerp(1,0.60+0.55*(1-p.sr),toStar);
+    const mix=clamp(x/w);
+    ctx.fillStyle=`rgba(${Math.round(lerp(255,178,mix*0.6))},${Math.round(lerp(212,186,mix*0.6))},${Math.round(lerp(180,255,mix*0.75))},${a})`;
+    ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+  }
+
+  for(let i=0;i<3;i++)glowDot(ctx,L.homes[i].x,L.homes[i].y,L.dotR,rest,0.45);
+}
+
+/* ============================ board data ============================ */
+const BOARDS=[
+{
+  id:"sternenzelt", de:"Sternenzelt", en:"Constellation", dur:9, draw:drawSternenzelt,
+  lede:"The dots let go of the wordmark and become stars. Hairlines find them, a triangle closes, the whole field turns a few degrees, and the constellation collapses back into the umlaut. The Ode's own image — <em>über'm Sternenzelt</em> — read literally.",
+  spec:{Loop:"9.0 s · seamless", Register:"Quiet, cold, wide", Render:"Points + hairlines. Cheapest of the five.", Risk:"Reads as generic 'tech constellation' unless the link logic is sparse — three links maximum on screen at once."},
+  beats:[
+    [0,1.2,"Ruhe","Mark at rest. Dots breathe on a 2 s cycle, barely."],
+    [1.2,2.6,"Ablösung","Dots release upward and separate. Wordmark drops to 20 % — it never disappears."],
+    [2.6,5.5,"Drift","Each dot rides its own slow ellipse. Background stars fade up behind them."],
+    [3.2,4.6,"Verbindung","The triangle draws edge by edge; each dot also links to its nearest star."],
+    [5.5,7.2,"Drehung","The whole field turns roughly 9°. Nothing else moves — the turn is the beat."],
+    [7.2,8.6,"Heimkehr","Links retract. Dots arc home, fastest in the middle of the move."],
+    [8.6,9,"Setzen","One 22 % overshoot, damped. Wordmark back to full."]
+  ]
+},
+{
+  id:"funkenflug", de:"Funkenflug", en:"Ember", dur:8, draw:drawFunkenflug,
+  lede:"The name, taken at face value. The dots heat from the inside, ignite, and climb as embers trailing sparks. At the top they burn out to ash, cool, and fall back into the umlaut — where they land hard enough to ring.",
+  spec:{Loop:"8.0 s · seamless", Register:"Warm, physical, loud", Render:"~170 sparks, analytic paths — no simulation state.", Risk:"Fire is a cliché unless it is restrained. Keep the spark count low enough to count them."},
+  beats:[
+    [0,0.8,"Glut","Heat builds inside the dots. Nothing moves yet."],
+    [0.8,1.6,"Zündung","Ignition, staggered 0.11 s left to right. First sparks leave."],
+    [1.6,4.5,"Aufstieg","Ascent on turbulence, spreading outward. The umlaut is now empty."],
+    [4.5,6.0,"Verglühen","Sparks cool orange → ash. The dots shrink to half size and dim."],
+    [6.0,7.3,"Fall","Gravity takes them. They re-warm on the way down."],
+    [7.3,7.75,"Aufschlag","Impact: shockwave ring, one bounce at 1.1 dot radii."],
+    [7.75,8,"Ruhe","Settled, back to a low glow."]
+  ]
+},
+{
+  id:"schmelze", de:"Schmelze", en:"Liquid", dur:7, draw:drawSchmelze,
+  lede:"Three dots as one material. They flow together into a single body, take a lazy figure-eight across the frame, then pinch apart — two, then three — and travel home still liquid, hardening only at the very end.",
+  spec:{Loop:"7.0 s · seamless", Register:"Sensual, expensive, slow", Render:"Metaball field. Prototype solves it on the CPU at 1/3 resolution; production is a shader <code>smin</code>.", Risk:"Scale is a judgement call, not physics: true conserved volume is illegible at umlaut size, so the merged body is pushed to roughly five dot-widths. Too small and it reads as dots hiding behind each other."},
+  beats:[
+    [0,0.9,"Ruhe","Three separate, perfectly round — the field is tuned so an isolated blob matches the logo dot exactly."],
+    [0.9,2.0,"Verschmelzen","They converge and rise clear of the wordmark; surfaces fuse before the centres meet."],
+    [2.0,3.6,"Wandern","One body travels a figure-eight, deforming against its own direction of travel."],
+    [3.6,4.8,"Teilung","It stretches and pinches — two, then three — each pinch snapping back."],
+    [4.8,6.3,"Rückweg","Three bodies travel home, still gooey, still linking when they pass close."],
+    [6.3,7,"Erstarren","Surface tension wins. A 20 % wobble damps out over 0.4 s."]
+  ]
+},
+{
+  id:"dreikoerper", de:"Dreikörper", en:"Orbit", dur:10, draw:drawDreikoerper,
+  lede:"The dots are treated as three bodies with mass. They are released tangentially and fall into a wandering orbit, writing long-exposure trails behind them. Then the orbits decay, the spin accelerates, and each body is captured back into its slot in turn.",
+  spec:{Loop:"10.0 s · seamless", Register:"Precise, mechanical, hypnotic", Render:"Trails are 46 back-samples of a periodic position function — no accumulation buffer, no drift.", Risk:"The longest of the five. Below ~8 s the capture reads as a snatch rather than a landing."},
+  beats:[
+    [0,1.0,"Ruhe","At rest in the mark."],
+    [1.0,2.2,"Freigabe","Released sideways, not upward. Trails begin to register."],
+    [2.2,6.0,"Umlauf","Three orbits around a barycentre that itself drifts across the frame."],
+    [6.0,7.5,"Verengung","Orbits decay inward, angular speed rises quadratically, trails brighten."],
+    [7.5,9.2,"Einfang","Captured one at a time, 0.25 s apart. Trails collapse in behind each."],
+    [9.2,10,"Ruhe","Last trail fades to nothing."]
+  ]
+},
+{
+  id:"raster", de:"Raster", en:"Signal", dur:9, draw:drawRaster,
+  lede:"The GenAI reading. Each dot quantises into a cluster of micro-dots, the clusters spread into a halftone matrix across the whole frame, and for about a second the matrix resolves into a shape — a thought arriving — before dissolving and being recalled, grid-aligned, back into three solid dots.",
+  spec:{Loop:"9.0 s · seamless", Register:"Cool, intelligent, brand-forward", Render:"450 particles blending between three named position sets. The resolved shape is swappable — a glyph, a face, a client's mark.", Risk:"The held shape is the whole payoff. If it is not legible within 0.4 s of forming, cut its hold time and enlarge it."},
+  beats:[
+    [0,0.8,"Ruhe","Three solid dots. The particles are already there, packed."],
+    [0.8,1.8,"Auflösung","Each dot quantises into 150 micro-dots and expands."],
+    [1.8,3.2,"Streuung","The clusters spread into a full-frame matrix, staggered by distance."],
+    [3.2,3.9,"Verdichtung","The matrix resolves into the spark form."],
+    [3.9,5.0,"Halten","Held, shimmering. This is the only still second in the loop."],
+    [5.0,5.6,"Zerfall","Back to the matrix."],
+    [5.6,7.2,"Rückruf","Recalled on Manhattan paths — x resolves before y, so it reads as addressed, not thrown."],
+    [7.2,8.4,"Verschmelzen","Clusters contract; the solid dot fades up underneath."],
+    [8.4,9,"Ruhe","Mark restored."]
+  ]
+}
+];
+
+/* ============================ stack + production copy ============================ */
+const STACK=[
+["Renderer","three.js <em>r16x</em> · or ogl / regl","One full-screen quad plus a fragment shader covers the field effects; instanced <code>Points</code> covers the particles. Reach for ogl or regl if the 150 kB three.js gzip matters more than the ecosystem."],
+["Particles","Instanced attributes → GPGPU FBOs","Under ~5 000 particles, one instanced draw call with per-instance seeds is enough. Past that, move position and velocity into ping-pong float textures and advect them with curl noise in a shader."],
+["Field / goo","GLSL <code>smin</code> (polynomial smooth-min)","The liquid direction is a signed-distance field, not geometry. Resolution-independent, one pass, and the merge threshold becomes an art-directable uniform."],
+["Timeline","GSAP 3 <em>timeline, repeat: -1</em>","Beats are authored on a timeline against labels, then baked to uniforms. Keep the loop's own clock as <code>mod(uTime, T)</code> inside the shader so the seam is exact regardless of frame timing."],
+["Post","Selective bloom + film grain","Bloom only on the embers, via a luminance-thresholded pass — full-scene bloom washes out the wordmark. A little grain hides banding in the vignette."],
+["Trails","Feedback buffer, previous frame × 0.94","For the orbit direction. Cheaper and smoother than geometry ribbons, and it survives a resize without artefacts."],
+["Shell","Next.js + React Three Fiber + drei","If the site is React. Standalone: Vite + three, shipped as one ES module that mounts to a <code>&lt;canvas&gt;</code> — that version drops into Webflow, Framer, or a WordPress block unchanged."],
+["Scroll","Lenis","Only if the background reacts to scroll position. If it does not, skip it — smooth-scroll libraries cost you native scroll behaviour on touch."],
+["The mark","Inline SVG, dots as real nodes","The wordmark stays DOM/SVG for crispness, selectability, and SEO. The canvas dots hand off to the SVG dots at the loop's rest beat — cross-fade over ~120 ms and no one sees the swap."]
+];
+const ALTS=["Alternatives: Rive or Lottie for a baked loop (tiny, but not generative)",
+"Unicorn Studio if it should stay no-code",
+"canvas 2D only, if the effect stays under ~2 000 elements — as in this prototype",
+"CSS/SVG-only variant as the mobile fallback"];
+
+const PROD=[
+["Seamless is a requirement, not a finish","Every position here is a pure function of loop time, and every function returns to its rest value at <code>t = T</code>. That is what makes the loop invisible. Anything stateful — accumulated trails, a physics integrator — will drift and show a seam within a few minutes."],
+["The wordmark never fully leaves","It dims to 20–26 % at the peak of every direction, never to zero. A background that erases the logo is a background that fails the one job it has."],
+["prefers-reduced-motion","Serve a single poster frame — the rest state, or the held beat for <em>Raster</em>. Do not just slow the loop down; the request is for no motion, not less."],
+["Performance budget","Cap device pixel ratio at 1.75. Pause on <code>visibilitychange</code> and when an IntersectionObserver says the canvas is off screen. Target under 4 ms of GPU per frame so the main thread stays free."],
+["Mobile","Halve the particle counts and drop post-processing. <em>Schmelze</em> and <em>Raster</em> hold up at low counts; <em>Funkenflug</em> needs its spark density and is the one to swap for a static poster on small screens."],
+["Dropping in the real logo","One function owns the mark: it returns the three dot positions and draws the wordmark. Replace its body with your SVG's <code>getBBox()</code> on the umlaut dots and everything above re-targets automatically — the loops never hard-code a coordinate."]
+];
+
+/* ============================ build the DOM ============================ */
+const body=document.getElementById("stack-body");
+body.innerHTML=STACK.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+document.getElementById("stack-alts").innerHTML=ALTS.map(a=>`<span class="pill">${a}</span>`).join("");
+document.getElementById("prod-list").innerHTML=PROD.map(c=>
+  `<div class="card"><h4>${c[0]}</h4><p>${c[1]}</p></div>`).join("");
+
+const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const list=document.getElementById("board-list");
+const stages=[];
+
+for(const b of BOARDS){
+  const el=document.createElement("article");
+  el.className="board";
+  el.innerHTML=`
+    <div class="board-head">
+      <div class="board-title">
+        <h3>${b.de}</h3>
+        <span class="en">${b.en} · ${b.dur.toFixed(1)} s</span>
+      </div>
+      <p class="board-lede">${b.lede}</p>
+    </div>
+    <figure class="stage-shell" style="margin:0">
+      <canvas class="stage-canvas"></canvas>
+      <figcaption class="transport">
+        <button class="play" type="button" aria-label="Play or pause the ${b.de} loop">Play</button>
+        <div class="track" role="group" aria-label="Beats"></div>
+        <span class="clock">0.0 / ${b.dur.toFixed(1)}s</span>
+      </figcaption>
+    </figure>
+    <div class="sheet">
+      <div style="overflow-x:auto">
+        <table class="beats">
+          <thead><tr><th>Time</th><th>Beat</th><th>What happens</th></tr></thead>
+          <tbody>${b.beats.map(x=>
+            `<tr><td>${x[0].toFixed(1)}–${x[1].toFixed(1)}</td><td>${x[2]}</td><td>${x[3]}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+      <dl class="spec">${Object.entries(b.spec).map(([k,v])=>
+        `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}
+      </dl>
+    </div>`;
+  list.appendChild(el);
+
+  const canvas=el.querySelector("canvas");
+  const ctx=canvas.getContext("2d");
+  const track=el.querySelector(".track");
+  const playBtn=el.querySelector(".play");
+  const clock=el.querySelector(".clock");
+  const rows=[...el.querySelectorAll(".beats tbody tr")];
+
+  // beat strip: one segment per beat, width proportional to its span
+  const segs=b.beats.map((x,i)=>{
+    const s=document.createElement("button");
+    s.type="button";
+    s.className="seg";
+    s.style.flexGrow=String(Math.max(0.4,x[1]-x[0]));
+    s.title=`${x[2]} — ${x[0].toFixed(1)}s`;
+    s.setAttribute("aria-label",`Jump to ${x[2]} at ${x[0].toFixed(1)} seconds`);
+    s.innerHTML='<span class="fill"></span>';
+    s.addEventListener("click",()=>{st.t=x[0];render(st);});
+    track.appendChild(s);
+    return s;
+  });
+
+  const st={board:b,canvas,ctx,segs,rows,clock,playBtn,
+            t:reduced?(b.beats[Math.floor(b.beats.length/2)][0]):0,
+            playing:!reduced,visible:false,w:0,h:0,scratch:{}};
+  playBtn.textContent=st.playing?"Pause":"Play";
+  playBtn.setAttribute("aria-pressed",String(st.playing));
+  playBtn.addEventListener("click",()=>{
+    st.playing=!st.playing;
+    playBtn.textContent=st.playing?"Pause":"Play";
+    playBtn.setAttribute("aria-pressed",String(st.playing));
+  });
+
+  const ro=new ResizeObserver(()=>{resize(st);render(st);});
+  ro.observe(canvas);
+  const io=new IntersectionObserver(es=>{for(const e of es)st.visible=e.isIntersecting;},{rootMargin:"120px"});
+  io.observe(canvas);
+  stages.push(st);
+  resize(st);render(st);
+}
+
+function resize(st){
+  const rect=st.canvas.getBoundingClientRect();
+  if(rect.width<2)return;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  st.w=rect.width;st.h=rect.height;
+  st.canvas.width=Math.round(rect.width*dpr);
+  st.canvas.height=Math.round(rect.height*dpr);
+  st.ctx.setTransform(dpr,0,0,dpr,0,0);
+  st.scratch={};
+}
+
+function render(st){
+  if(st.w<2)return;
+  const {ctx,w,h,board}=st;
+  const L=computeLayout(ctx,w,h);
+  ctx.save();
+  board.draw(ctx,w,h,L,st.t,st.scratch);
+  ctx.restore();
+
+  // transport + beat sheet follow the playhead
+  let active=-1;
+  for(let i=0;i<board.beats.length;i++){
+    const [a,b2]=board.beats[i];
+    const on=st.t>=a&&st.t<b2;
+    if(on)active=i;
+    const seg=st.segs[i];
+    const p=clamp((st.t-a)/(b2-a));
+    seg.classList.toggle("on",on);
+    seg.classList.toggle("done",st.t>=b2);
+    seg.firstChild.style.width=(p*100).toFixed(1)+"%";
+  }
+  for(let i=0;i<st.rows.length;i++)st.rows[i].classList.toggle("on",i===active);
+  st.clock.textContent=`${st.t.toFixed(1)} / ${board.dur.toFixed(1)}s`;
+}
+
+let last=performance.now();
+function tick(now){
+  const dt=Math.min((now-last)/1000,0.05);
+  last=now;
+  for(const st of stages){
+    if(!st.visible)continue;
+    if(st.playing){st.t=(st.t+dt)%st.board.dur;}
+    render(st);
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+document.addEventListener("visibilitychange",()=>{last=performance.now();});
+})();
+</script>
